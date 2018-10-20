@@ -1,8 +1,10 @@
 package com.claire.chatnotification;
 
+import android.app.NotificationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -22,10 +24,27 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                makeNotification();
             }
         });
+    }
+
+    //開發版本為android8.0以前
+    private void makeNotification() {
+        //取得通知管理器
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        //產生通知
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this, "channel")
+                .setSmallIcon(android.R.drawable.ic_menu_today)
+                .setContentTitle("This is Title")
+                .setContentText("Testing...")
+                .setSubText("This is info")
+                .setWhen(System.currentTimeMillis()); //設定通知的時間，目前先設現在
+        //送出通知
+        manager.notify(1, builder.build());
+
+
     }
 
     @Override
