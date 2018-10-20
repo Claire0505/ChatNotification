@@ -1,7 +1,9 @@
 package com.claire.chatnotification;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
@@ -17,16 +19,56 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab =  findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                makeNotification();
+               // makeNotification(); //開發版本為Android8.0以前
+                makOreoNotification(); //開發版本為Android8.0之後
             }
         });
+    }
+
+    //開發版本為Android8.0之後
+    private void makOreoNotification() {
+        String channelId = "love";
+        String channelName = "我的最愛";
+        final int NOTIFICATION_ID = 8;
+        NotificationManager manager = getNotificationManager(channelId, channelName);
+
+        //產生通知
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this, channelId)
+                        .setSmallIcon(android.R.drawable.ic_menu_today)
+                        .setContentTitle("開發版本為Android8.0之後")
+                        .setContentText("Testing...")
+                        .setSubText("This is info")
+                        .setWhen(System.currentTimeMillis()) //設定通知的時間，目前先設現在
+                        .setChannelId(channelId);
+        //送出通知
+        manager.notify(1, builder.build());
+
+    }
+
+    @NonNull
+    private NotificationManager getNotificationManager(String channelId, String channelName) {
+        //取得通知管理器
+        NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        //產生通知頻道
+        NotificationChannel channel = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            channel = new NotificationChannel(
+                    channelId,
+                    channelName, NotificationManager.IMPORTANCE_HIGH);
+
+            //產生頻道
+            manager.createNotificationChannel(channel);
+        }
+
+        return manager;
     }
 
     //開發版本為android8.0以前
