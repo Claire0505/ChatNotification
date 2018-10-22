@@ -139,4 +139,15 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this,MyService.class);
         stopService(intent);
     }
+
+    //IntentService 批次作業，它會自動將兩個Intent物件放在佇列中，並依序執行兩項工作
+    public void testIntentService(View view) {
+        Intent hello = new Intent(this, HelloIntentService.class);
+        hello.putExtra(HelloIntentService.PARAM_MSG, "TEST1");
+        startService(hello);
+
+        Intent hello2 = new Intent(this, HelloIntentService.class);
+        hello2.putExtra(HelloIntentService.PARAM_MSG, "TEST2");
+        startService(hello2);
+    }
 }
