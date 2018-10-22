@@ -2,6 +2,9 @@ package com.claire.chatnotification;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -39,6 +42,19 @@ public class MainActivity extends AppCompatActivity {
         final int NOTIFICATION_ID = 8;
         NotificationManager manager = getNotificationManager(channelId, channelName);
 
+        //附加動作在通知中。點擊後會到指定的畫面去
+        Intent intent = new Intent(this, ChatActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(ChatActivity.class);
+        stackBuilder.addNextIntent(intent);
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //使用此方法，當按返回時不會回到上一個主畫面
+//        PendingIntent pendingIntent =
+//                PendingIntent.getActivities(this,  //參數傳入Context物件
+//                        0,  //參數為指令一個辦識碼，目前只有一個因此直接使用0為其辦識碼
+//                        new Intent[]{intent}, //第三個參數為intent物件
+//                        PendingIntent.FLAG_UPDATE_CURRENT); //代表沿用舊的，並更新附帶資料
         //產生通知
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this, channelId)
@@ -47,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
                         .setContentText("Testing...")
                         .setSubText("This is info")
                         .setWhen(System.currentTimeMillis()) //設定通知的時間，目前先設現在
-                        .setChannelId(channelId);
+                        .setChannelId(channelId)
+                        .setContentIntent(pendingIntent); //設定PendingIntent物件到通知中
         //送出通知
         manager.notify(1, builder.build());
 
