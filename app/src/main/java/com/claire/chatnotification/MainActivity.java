@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 //                        0,  //參數為指令一個辦識碼，目前只有一個因此直接使用0為其辦識碼
 //                        new Intent[]{intent}, //第三個參數為intent物件
 //                        PendingIntent.FLAG_UPDATE_CURRENT); //代表沿用舊的，並更新附帶資料
+
         //產生通知
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this, channelId)
