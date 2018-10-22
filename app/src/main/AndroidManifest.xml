@@ -26,9 +26,12 @@
         <service
             android:name=".MyService"
             android:enabled="true"
-            android:exported="true"/>
-
-        <service android:name=".HelloIntentService"/>
+            android:exported="true" />
+        <service android:name=".HelloIntentService" />
+        <service
+            android:name=".ChatService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

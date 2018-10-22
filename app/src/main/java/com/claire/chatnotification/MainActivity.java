@@ -150,4 +150,9 @@ public class MainActivity extends AppCompatActivity {
         hello2.putExtra(HelloIntentService.PARAM_MSG, "TEST2");
         startService(hello2);
     }
+
+    public void chat(View view) {
+        Intent intent = new Intent(this, ChatActivity.class);
+        startActivity(intent);
+    }
 }
