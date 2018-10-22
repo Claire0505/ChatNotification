@@ -128,4 +128,15 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    //啟動服務
+    public void startMyService(View view){
+        Intent intent = new Intent(this,MyService.class);
+        startService(intent);
+    }
+    //停止服務
+    public void stopMyService(View view){
+        Intent intent = new Intent(this,MyService.class);
+        stopService(intent);
+    }
 }
